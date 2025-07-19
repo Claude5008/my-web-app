@@ -9,24 +9,30 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'text/html')
             self.end_headers()
             
-            html = f'''
+            container_id = open('/proc/self/cgroup').read().split('/')[-1][:12]
+            current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            
+            css_styles = """
+                body { font-family: Arial, sans-serif; margin: 40px; background: #f0f0f0; }
+                .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+                h1 { color: #2c3e50; }
+                .info { background: #ecf0f1; padding: 15px; border-radius: 5px; margin: 20px 0; }
+            """
+            
+            html = f'''  # type: ignore
             <!DOCTYPE html>
             <html>
             <head>
+                <meta charset="UTF-8">
                 <title>My Custom Docker App</title>
-                <style>
-                    body { font-family: Arial, sans-serif; margin: 40px; background: #f0f0f0; }
-                    .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-                    h1 { color: #2c3e50; }
-                    .info { background: #ecf0f1; padding: 15px; border-radius: 5px; margin: 20px 0; }
-                </style>
+                <style>{css_styles}</style>
             </head>
             <body>
                 <div class="container">
                     <h1>🐳 Hello from My Custom Docker Container!</h1>
                     <div class="info">
-                        <p><strong>Container ID:</strong> """ + open('/proc/self/cgroup').read().split('/')[-1][:12] + """</p>
-                        <p><strong>Time:</strong> """ + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + """</p>
+                        <p><strong>Container ID:</strong> {container_id}</p>
+                        <p><strong>Time:</strong> {current_time}</p>
                         <p><strong>Message:</strong> This is running inside a custom Docker image I built!</p>
                     </div>
                     <p>This web server is running Python inside a Docker container that I created from scratch.</p>
