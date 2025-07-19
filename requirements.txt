@@ -1,0 +1,4 @@
+# No external dependencies for this simple app
+# In real projects, you'd list packages like:
+# flask==2.0.1
+# requests==2.25.1
