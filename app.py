@@ -9,7 +9,7 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'text/html')
             self.end_headers()
             
-            html = """
+            html = f'''
             <!DOCTYPE html>
             <html>
             <head>
@@ -34,7 +34,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                 </div>
             </body>
             </html>
-            """
+            '''
             self.wfile.write(html.encode())
             
         elif self.path == '/api':
